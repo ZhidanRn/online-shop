@@ -2,6 +2,7 @@ package com.example.onlineshop.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -14,17 +15,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
-// Enum untuk tab navigasi
 enum class UserTab(val title: String, val icon: ImageVector) {
-    Home("Beranda", Icons.Default.Home),
-    Transactions("Transaksi", Icons.Default.List),
-    Profile("Akun", Icons.Default.Person)
+    Home("Home", Icons.Default.Home),
+    Transactions("Transactions", Icons.Default.List),
+    Profile("Profile", Icons.Default.Person)
 }
 
 @Composable
@@ -37,17 +38,17 @@ fun UserBottomNavigation(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp),
+            .padding(12.dp)
+            .border(1.dp, colors.primary, RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.BottomCenter
     ) {
         NavigationBar(
-            containerColor = colors.surface, // Gunakan warna dari theme
+            containerColor = Color.White,
             tonalElevation = 10.dp,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .shadow(8.dp, shape = RoundedCornerShape(24.dp))
-                .background(colors.surface, shape = RoundedCornerShape(24.dp))
+                .shadow(2.dp, shape = RoundedCornerShape(24.dp))
         ) {
             UserTab.values().forEach { tab ->
                 val isSelected = selectedTab == tab
@@ -64,7 +65,7 @@ fun UserBottomNavigation(
                             Icon(
                                 imageVector = tab.icon,
                                 contentDescription = tab.title,
-                                tint = if (isSelected) colors.primary else colors.onSurfaceVariant // Gunakan warna theme
+                                tint = if (isSelected) colors.primary else colors.onSurfaceVariant
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(

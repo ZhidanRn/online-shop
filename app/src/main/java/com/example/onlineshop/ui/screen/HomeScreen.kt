@@ -1,5 +1,6 @@
 package com.example.onlineshop.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.*
@@ -18,15 +19,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
     ) {
-        Text(
-            text = "Welcome, $role",
-            style = MaterialTheme.typography.h5
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         if (role == "admin") {
             AdminScreen()
         } else {
