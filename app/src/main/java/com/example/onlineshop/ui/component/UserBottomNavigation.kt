@@ -1,4 +1,4 @@
-package com.example.onlineshop.ui.screen
+package com.example.onlineshop.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,21 +32,22 @@ fun UserBottomNavigation(
     selectedTab: UserTab,
     onTabSelected: (UserTab) -> Unit
 ) {
+    val colors = MaterialTheme.colorScheme
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp),
         contentAlignment = Alignment.BottomCenter
     ) {
-        // Floating Navigation Bar dengan Rounded Shape
         NavigationBar(
-            containerColor = Color.White,
+            containerColor = colors.surface, // Gunakan warna dari theme
             tonalElevation = 10.dp,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .shadow(2.dp, shape = RoundedCornerShape(24.dp))
-                .background(Color.White, shape = RoundedCornerShape(24.dp))
+                .shadow(8.dp, shape = RoundedCornerShape(24.dp))
+                .background(colors.surface, shape = RoundedCornerShape(24.dp))
         ) {
             UserTab.values().forEach { tab ->
                 val isSelected = selectedTab == tab
@@ -64,14 +64,14 @@ fun UserBottomNavigation(
                             Icon(
                                 imageVector = tab.icon,
                                 contentDescription = tab.title,
-                                tint = if (isSelected) Color(0xFF00AA5B) else Color.Gray
+                                tint = if (isSelected) colors.primary else colors.onSurfaceVariant // Gunakan warna theme
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = tab.title,
                                 fontSize = 13.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                color = if (isSelected) Color(0xFF00AA5B) else Color.Gray
+                                color = if (isSelected) colors.primary else colors.onSurfaceVariant
                             )
                         }
                     }

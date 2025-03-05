@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.onlineshop.ui.screen.UserBottomNavigation
-import com.example.onlineshop.ui.screen.UserTab
+import com.example.onlineshop.ui.component.UserBottomNavigation
+import com.example.onlineshop.ui.component.UserTab
 
 @Composable
 fun UserScreen() {
