@@ -1,0 +1,30 @@
+package com.example.onlineshop.ui.screen.user
+
+import androidx.compose.foundation.layout.*
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import com.example.onlineshop.ui.screen.UserBottomNavigation
+import com.example.onlineshop.ui.screen.UserTab
+
+@Composable
+fun UserScreen() {
+    var selectedTab by remember { mutableStateOf(UserTab.Home) }
+
+    Scaffold(
+        bottomBar = {
+            UserBottomNavigation(selectedTab) { newTab ->
+                selectedTab = newTab
+            }
+        }
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            when (selectedTab) {
+                UserTab.Home -> UserHomeScreen()
+                UserTab.Transactions -> UserTransactionScreen()
+                UserTab.Profile -> UserProfileScreen()
+            }
+        }
+    }
+}
