@@ -8,12 +8,14 @@ import androidx.compose.runtime.R
 import androidx.compose.ui.Modifier
 import com.example.onlineshop.data.lib.DataStoreManager
 import com.example.onlineshop.data.repository.AuthRepository
+import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.component.UserBottomNavigation
 import com.example.onlineshop.ui.component.UserTab
 
 @Composable
 fun UserScreen(
     authRepository: AuthRepository,
+    userProfileRepository: UserProfileRepository,
     dataStoreManager: DataStoreManager,
     onLogout: () -> Unit
 ) {
@@ -33,6 +35,7 @@ fun UserScreen(
                 UserTab.Profile -> UserProfileScreen(
                     authRepository = authRepository,
                     dataStoreManager = dataStoreManager,
+                    userRepository = userProfileRepository,
                     onLogout = onLogout
                 )
             }

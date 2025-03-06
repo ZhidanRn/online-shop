@@ -1,6 +1,8 @@
 package com.example.onlineshop.data.repository
 
+import com.example.onlineshop.data.model.User
 import com.example.onlineshop.data.lib.DataStoreManager
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -9,6 +11,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 class AuthRepository {
     private val auth = FirebaseAuth.getInstance()
@@ -89,4 +94,23 @@ class AuthRepository {
     fun isUserLoggedIn(): Boolean {
         return auth.currentUser != null
     }
+
+//    fun getCurrentUser(): Flow<User?> = callbackFlow {
+//        val listener = FirebaseAuth.getInstance().addAuthStateListener { auth ->
+//            val firebaseUser = auth.currentUser
+//            if (firebaseUser != null) {
+//                trySend(
+//                    User(
+//                        uid = firebaseUser.uid,
+//                        email = firebaseUser.email ?: "",
+//                        role = "user"
+//                    )
+//                )
+//            } else {
+//                trySend(null)
+//            }
+//        }
+//
+//        awaitClose { FirebaseAuth.getInstance().removeAuthStateListener(listener) }
+//    }
 }

@@ -9,12 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.onlineshop.data.lib.DataStoreManager
 import com.example.onlineshop.data.repository.AuthRepository
+import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.screen.user.UserScreen
 
 @Composable
 fun HomeScreen(
     role: String,
     authRepository: AuthRepository,
+    userProfileRepository: UserProfileRepository,
     dataStoreManager: DataStoreManager,
     onLogout: () -> Unit
 ) {
@@ -28,6 +30,7 @@ fun HomeScreen(
             UserScreen(
                 authRepository = authRepository,
                 dataStoreManager = dataStoreManager,
+                userProfileRepository = userProfileRepository,
                 onLogout = onLogout
             )
         }
