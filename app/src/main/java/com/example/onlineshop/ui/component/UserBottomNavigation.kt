@@ -1,8 +1,6 @@
 package com.example.onlineshop.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.navigationBarsPadding
 
 enum class UserTab(val title: String, val icon: ImageVector) {
     Home("Home", Icons.Default.Home),
@@ -38,21 +37,21 @@ fun UserBottomNavigation(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
-            .border(1.dp, colors.primary, RoundedCornerShape(24.dp)),
+            .navigationBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         contentAlignment = Alignment.BottomCenter
     ) {
         NavigationBar(
-            containerColor = Color.White,
-            tonalElevation = 10.dp,
+            containerColor = colors.surface,
+            tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
-                .shadow(2.dp, shape = RoundedCornerShape(24.dp))
+                .height(75.dp)
+                .shadow(2.dp, shape = RoundedCornerShape(20.dp))
         ) {
-            UserTab.values().forEach { tab ->
+            UserTab.entries.forEach { tab ->
                 val isSelected = selectedTab == tab
-                val animatedAlpha by animateFloatAsState(if (isSelected) 1f else 0.6f)
+                val animatedAlpha by animateFloatAsState(targetValue = if (isSelected) 1f else 0.5f)
 
                 NavigationBarItem(
                     selected = isSelected,
@@ -70,8 +69,8 @@ fun UserBottomNavigation(
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = tab.title,
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Medium,
                                 color = if (isSelected) colors.primary else colors.onSurfaceVariant
                             )
                         }
