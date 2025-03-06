@@ -4,12 +4,19 @@ import androidx.compose.foundation.layout.*
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.R
 import androidx.compose.ui.Modifier
+import com.example.onlineshop.data.lib.DataStoreManager
+import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.ui.component.UserBottomNavigation
 import com.example.onlineshop.ui.component.UserTab
 
 @Composable
-fun UserScreen() {
+fun UserScreen(
+    authRepository: AuthRepository,
+    dataStoreManager: DataStoreManager,
+    onLogout: () -> Unit
+) {
     var selectedTab by remember { mutableStateOf(UserTab.Home) }
 
     Scaffold(
@@ -23,7 +30,11 @@ fun UserScreen() {
             when (selectedTab) {
                 UserTab.Home -> UserHomeScreen()
                 UserTab.Transactions -> UserTransactionScreen()
-                UserTab.Profile -> UserProfileScreen()
+                UserTab.Profile -> UserProfileScreen(
+                    authRepository = authRepository,
+                    dataStoreManager = dataStoreManager,
+                    onLogout = onLogout
+                )
             }
         }
     }

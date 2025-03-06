@@ -18,13 +18,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.onlineshop.data.lib.DataStoreManager
 import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.ui.theme.Purple40
 import com.example.onlineshop.ui.theme.PurpleGrey40
 import com.example.onlineshop.ui.theme.PurpleGrey80
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class AuthViewModel(
+    private val authRepository: AuthRepository,
+    private val dataStoreManager: DataStoreManager
+) : ViewModel() {
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var confirmPassword by mutableStateOf("")
@@ -47,7 +51,7 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         isRegister = !isRegister
     }
 
-    fun authenticate(onLoginSuccess: (String) -> Unit) {
+    fun authenticate(onLoginSuccess: (String, Any?) -> Unit) {
         if (email.isBlank() || password.isBlank() || (isRegister && confirmPassword.isBlank())) {
             showSnackbar("Please fill all fields")
             return
@@ -79,7 +83,10 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
                     if (success) {
                         snackbarMessage = "Login Successful"
                         showSnackbar = true
-                        userRole?.let { onLoginSuccess(it) }
+                        userRole?.let {
+                            saveSession(email, it)
+                            onLoginSuccess(email, it)
+                        }
                     } else {
                         showSnackbar(message ?: "Login Failed")
                     }
@@ -100,11 +107,17 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         snackbarMessage = message
         showSnackbar = true
     }
+
+    private fun saveSession(email: String, role: String) {
+        viewModelScope.launch {
+            dataStoreManager.saveUserSession(email, role)
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AuthScreen(viewModel: AuthViewModel, onLoginSuccess: (String) -> Unit, param: (Any) -> Unit) {
+fun AuthScreen(viewModel: AuthViewModel, onLoginSuccess: (String, Any?) -> Unit) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 

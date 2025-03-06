@@ -4,11 +4,21 @@ import androidx.compose.foundation.layout.*
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.onlineshop.data.lib.DataStoreManager
+import com.example.onlineshop.data.repository.AuthRepository
+import kotlinx.coroutines.launch
 
 @Composable
-fun UserProfileScreen() {
+fun UserProfileScreen(
+    authRepository: AuthRepository,
+    dataStoreManager: DataStoreManager,
+    onLogout: () -> Unit
+) {
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,5 +33,16 @@ fun UserProfileScreen() {
 
         Text("Nama: John Doe")
         Text("Email: johndoe@example.com")
+
+        Button(
+            onClick = {
+                coroutineScope.launch {
+                    authRepository.logout(dataStoreManager)
+                    onLogout()
+                }
+            }
+        ) {
+            Text("Logout")
+        }
     }
 }

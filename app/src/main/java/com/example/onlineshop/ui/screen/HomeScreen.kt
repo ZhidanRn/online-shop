@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.onlineshop.data.lib.DataStoreManager
 import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.ui.screen.user.UserScreen
 
@@ -14,6 +15,7 @@ import com.example.onlineshop.ui.screen.user.UserScreen
 fun HomeScreen(
     role: String,
     authRepository: AuthRepository,
+    dataStoreManager: DataStoreManager,
     onLogout: () -> Unit
 ) {
     Column(
@@ -23,18 +25,13 @@ fun HomeScreen(
         if (role == "admin") {
             AdminScreen()
         } else {
-            UserScreen()
+            UserScreen(
+                authRepository = authRepository,
+                dataStoreManager = dataStoreManager,
+                onLogout = onLogout
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                authRepository.logout()
-                onLogout()
-            }
-        ) {
-            Text("Logout")
-        }
     }
 }

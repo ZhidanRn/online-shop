@@ -1,9 +1,13 @@
 package com.example.onlineshop.data.repository
 
+import com.example.onlineshop.data.lib.DataStoreManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class AuthRepository {
@@ -70,8 +74,12 @@ class AuthRepository {
         }
     }
 
-    fun logout() {
+    fun logout(dataStoreManager: DataStoreManager) {
         auth.signOut()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            dataStoreManager.clearSession()
+        }
     }
 
     fun getCurrentUserId(): String? {
