@@ -3,6 +3,7 @@ package com.example.onlineshop.ui.screen
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -23,6 +24,7 @@ import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.ui.theme.Purple40
 import com.example.onlineshop.ui.theme.PurpleGrey40
 import com.example.onlineshop.ui.theme.PurpleGrey80
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -137,6 +139,15 @@ class AuthViewModel(
 fun AuthScreen(viewModel: AuthViewModel, onLoginSuccess: (String, Any?) -> Unit) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
+
+    LaunchedEffect(Unit) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
+    }
 
     LaunchedEffect(viewModel.showSnackbar) {
         if (viewModel.showSnackbar) {
