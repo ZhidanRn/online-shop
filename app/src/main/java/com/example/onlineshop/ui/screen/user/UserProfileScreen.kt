@@ -18,6 +18,7 @@ import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.runtime.*
@@ -30,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
@@ -248,17 +250,37 @@ fun UserProfileScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
-
-            // Logout Button
-            Button(
+            TextButton(
                 onClick = { showLogoutDialog = true },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
+                    .padding(vertical = 16.dp, horizontal = 8.dp)
+                    .height(56.dp)
+                    .border(1.dp, Color(0xFFD32F2F), RoundedCornerShape(12.dp)),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color(0xFFD32F2F)
+                ),
+                shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Keluar", fontWeight = FontWeight.Bold)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Logout,
+                        contentDescription = "Logout Icon",
+                        tint = Color(0xFFD32F2F),
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(
+                        text = "Logout",
+                        fontWeight = FontWeight.Normal,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color(0xFFD32F2F) // Warna teks mengikuti border
+                    )
+                }
             }
         }
     }
