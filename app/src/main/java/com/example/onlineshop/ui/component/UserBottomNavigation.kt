@@ -38,20 +38,20 @@ fun UserBottomNavigation(
         modifier = Modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 8.dp, vertical = 4.dp), // Mengurangi padding
         contentAlignment = Alignment.BottomCenter
     ) {
         NavigationBar(
             containerColor = colors.surface,
-            tonalElevation = 6.dp,
+            tonalElevation = 4.dp, // Kurangi shadow agar lebih flat
             modifier = Modifier
                 .fillMaxWidth()
-                .height(75.dp)
-                .shadow(2.dp, shape = RoundedCornerShape(20.dp))
+                .height(55.dp) // Kurangi tinggi Navigation Bar
+                .shadow(1.dp, shape = RoundedCornerShape(15.dp)) // Mengurangi shadow
         ) {
             UserTab.entries.forEach { tab ->
                 val isSelected = selectedTab == tab
-                val animatedAlpha by animateFloatAsState(targetValue = if (isSelected) 1f else 0.5f)
+                val animatedAlpha by animateFloatAsState(targetValue = if (isSelected) 1f else 0.6f)
 
                 NavigationBarItem(
                     selected = isSelected,
@@ -64,17 +64,21 @@ fun UserBottomNavigation(
                             Icon(
                                 imageVector = tab.icon,
                                 contentDescription = tab.title,
+                                modifier = Modifier.size(20.dp), // Kurangi ukuran ikon
                                 tint = if (isSelected) colors.primary else colors.onSurfaceVariant
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(2.dp)) // Kurangi jarak antar ikon & teks
                             Text(
                                 text = tab.title,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium,
+                                fontSize = 10.sp, // Kurangi ukuran teks
+                                fontWeight = FontWeight.Normal,
                                 color = if (isSelected) colors.primary else colors.onSurfaceVariant
                             )
                         }
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent // Menghilangkan highlight
+                    )
                 )
             }
         }
