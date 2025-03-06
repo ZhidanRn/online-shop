@@ -42,21 +42,8 @@ import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.component.EditProfileDialog
 import com.example.onlineshop.ui.component.ProfileInfoItem
 import com.example.onlineshop.ui.component.ProfilePictureDialog
+import com.example.onlineshop.utils.createImageFile
 import kotlinx.coroutines.launch
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-
-fun Context.createImageFile(): File {
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-    val storageDir = cacheDir
-    return File.createTempFile(
-        "JPEG_${timeStamp}_",
-        ".jpg",
-        storageDir
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
