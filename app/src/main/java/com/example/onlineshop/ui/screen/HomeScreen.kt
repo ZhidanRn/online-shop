@@ -25,7 +25,11 @@ fun HomeScreen(
             .fillMaxSize()
     ) {
         if (role == "admin") {
-            AdminScreen()
+            AdminScreen(
+                authRepository = authRepository,
+                dataStoreManager = dataStoreManager,
+                onLogout = onLogout
+            )
         } else {
             UserScreen(
                 authRepository = authRepository,
