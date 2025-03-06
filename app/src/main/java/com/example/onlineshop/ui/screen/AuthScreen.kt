@@ -23,6 +23,7 @@ import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.ui.theme.Purple40
 import com.example.onlineshop.ui.theme.PurpleGrey40
 import com.example.onlineshop.ui.theme.PurpleGrey80
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
@@ -38,6 +39,7 @@ class AuthViewModel(
     var confirmPasswordVisible by mutableStateOf(false)
     var snackbarMessage by mutableStateOf("")
     var showSnackbar by mutableStateOf(false)
+    var isLoading by mutableStateOf(false)
 
     fun togglePasswordVisibility() {
         passwordVisible = !passwordVisible
@@ -62,14 +64,18 @@ class AuthViewModel(
         }
 
         viewModelScope.launch {
+            isLoading = true
+
             if (isRegister) {
                 authRepository.registerUser(email, password, role) { success, message ->
+                    isLoading = false
+
                     if (success) {
                         snackbarMessage = "Registration Successful"
                         showSnackbar = true
 
                         viewModelScope.launch {
-                            kotlinx.coroutines.delay(1000)
+                            delay(1000)
                             resetFields()
                             isRegister = false
                             showSnackbar = false
@@ -80,12 +86,16 @@ class AuthViewModel(
                 }
             } else {
                 authRepository.loginUser(email, password) { success, userRole, message ->
+                    isLoading = false
+
                     if (success) {
                         snackbarMessage = "Login Successful"
                         showSnackbar = true
-                        userRole?.let {
-                            saveSession(email, it)
-                            onLoginSuccess(email, it)
+
+                        viewModelScope.launch {
+                            delay(1000)
+                            saveSession(email, userRole ?: "user")
+                            onLoginSuccess(userRole ?: "user", null)
                         }
                     } else {
                         showSnackbar(message ?: "Login Failed")
@@ -197,47 +207,26 @@ fun AuthScreen(viewModel: AuthViewModel, onLoginSuccess: (String, Any?) -> Unit)
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-
-                    var expanded by remember { mutableStateOf(false) }
-
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        OutlinedTextField(
-                            value = viewModel.role,
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text("Select Role", color = Color.Black) },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier.menuAnchor().fillMaxWidth()
-                        )
-
-                        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                            DropdownMenuItem(text = { Text("User", color = Color.Black) }, onClick = {
-                                viewModel.role = "user"
-                                expanded = false
-                            })
-                            DropdownMenuItem(text = { Text("Admin", color = Color.Black) }, onClick = {
-                                viewModel.role = "admin"
-                                expanded = false
-                            })
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
 
             Button(
                 onClick = { viewModel.authenticate(onLoginSuccess) },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+                colors = ButtonDefaults.buttonColors(containerColor = Purple40),
+                enabled = !viewModel.isLoading
             ) {
-                Text(
-                    text = if (viewModel.isRegister) "Sign Up" else "Sign In",
-                    color = Color.White
-                )
+                if (viewModel.isLoading) {
+                    CircularProgressIndicator(
+                        color = Color.White,
+                        modifier = Modifier.size(20.dp)
+                    )
+                } else {
+                    Text(
+                        text = if (viewModel.isRegister) "Sign Up" else "Sign In",
+                        color = Color.White
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(8.dp))
 
