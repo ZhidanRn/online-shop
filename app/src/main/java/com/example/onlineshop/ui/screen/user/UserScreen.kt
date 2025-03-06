@@ -2,15 +2,17 @@ package com.example.onlineshop.ui.screen.user
 
 import androidx.compose.foundation.layout.*
 //noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
-import androidx.compose.runtime.R
 import androidx.compose.ui.Modifier
 import com.example.onlineshop.data.lib.DataStoreManager
 import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.component.UserBottomNavigation
 import com.example.onlineshop.ui.component.UserTab
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun UserScreen(
@@ -20,6 +22,15 @@ fun UserScreen(
     onLogout: () -> Unit
 ) {
     var selectedTab by remember { mutableStateOf(UserTab.Home) }
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
+
+    LaunchedEffect(Unit) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
+    }
 
     Scaffold(
         bottomBar = {
