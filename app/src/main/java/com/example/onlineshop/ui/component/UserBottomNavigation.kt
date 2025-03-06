@@ -1,6 +1,7 @@
 package com.example.onlineshop.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 
 enum class UserTab(val title: String, val icon: ImageVector) {
     Home("Home", Icons.Default.Home),
@@ -37,17 +40,26 @@ fun UserBottomNavigation(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .navigationBarsPadding()
-            .padding(horizontal = 8.dp, vertical = 4.dp), // Mengurangi padding
+            .drawBehind {
+                val strokeWidth = 1.dp.toPx()
+                val y = 0f
+                drawLine(
+                    color = Color.LightGray,
+                    start = Offset(0f, y),
+                    end = Offset(size.width, y),
+                    strokeWidth = strokeWidth
+                )
+            }
+            .navigationBarsPadding(),
         contentAlignment = Alignment.BottomCenter
     ) {
         NavigationBar(
-            containerColor = colors.surface,
-            tonalElevation = 4.dp, // Kurangi shadow agar lebih flat
+            containerColor = Color.White,
+            tonalElevation = 4.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp) // Kurangi tinggi Navigation Bar
-                .shadow(1.dp, shape = RoundedCornerShape(15.dp)) // Mengurangi shadow
+                .height(55.dp)
+                .shadow(1.dp, shape = RoundedCornerShape(15.dp))
         ) {
             UserTab.entries.forEach { tab ->
                 val isSelected = selectedTab == tab
@@ -64,20 +76,20 @@ fun UserBottomNavigation(
                             Icon(
                                 imageVector = tab.icon,
                                 contentDescription = tab.title,
-                                modifier = Modifier.size(20.dp), // Kurangi ukuran ikon
+                                modifier = Modifier.size(20.dp),
                                 tint = if (isSelected) colors.primary else colors.onSurfaceVariant
                             )
-                            Spacer(modifier = Modifier.height(2.dp)) // Kurangi jarak antar ikon & teks
+                            Spacer(modifier = Modifier.height(2.dp))
                             Text(
                                 text = tab.title,
-                                fontSize = 10.sp, // Kurangi ukuran teks
+                                fontSize = 10.sp,
                                 fontWeight = FontWeight.Normal,
                                 color = if (isSelected) colors.primary else colors.onSurfaceVariant
                             )
                         }
                     },
                     colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = Color.Transparent // Menghilangkan highlight
+                        indicatorColor = Color.Transparent
                     )
                 )
             }

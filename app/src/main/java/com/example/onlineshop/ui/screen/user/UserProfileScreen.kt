@@ -31,7 +31,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
@@ -151,8 +150,8 @@ fun UserProfileScreen(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground
+        containerColor = Color.White,
+        contentColor = Color.Black
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -221,8 +220,12 @@ fun UserProfileScreen(
 
             // Personal Information Card
             ElevatedCard(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.elevatedCardElevation(1.dp),
+                colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(
@@ -278,7 +281,7 @@ fun UserProfileScreen(
                         text = "Logout",
                         fontWeight = FontWeight.Normal,
                         style = MaterialTheme.typography.titleMedium,
-                        color = Color(0xFFD32F2F) // Warna teks mengikuti border
+                        color = Color(0xFFD32F2F)
                     )
                 }
             }
@@ -294,9 +297,9 @@ fun UserProfileScreen(
                 coroutineScope.launch {
                     try {
                         userRepository.updateUserProfile(updatedUser)
-                        userData = userRepository.getCurrentUserData() // Refresh data
+                        userData = userRepository.getCurrentUserData()
                     } catch (e: Exception) {
-                        // Handle error
+                        Toast.makeText(context, "Failed to update profile", Toast.LENGTH_SHORT).show()
                     }
                 }
                 showEditDialog = false
