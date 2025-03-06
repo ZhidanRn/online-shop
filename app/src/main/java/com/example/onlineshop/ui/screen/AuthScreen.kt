@@ -30,10 +30,14 @@ class AuthViewModel(
     private val authRepository: AuthRepository,
     private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
+    var name by mutableStateOf("")
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var confirmPassword by mutableStateOf("")
+    var phone by mutableStateOf("")
+    var address by mutableStateOf("")
     var role by mutableStateOf("user")
+    var profileImage by mutableStateOf("")
     var isRegister by mutableStateOf(false)
     var passwordVisible by mutableStateOf(false)
     var confirmPasswordVisible by mutableStateOf(false)
@@ -67,7 +71,7 @@ class AuthViewModel(
             isLoading = true
 
             if (isRegister) {
-                authRepository.registerUser(email, password, role) { success, message ->
+                authRepository.registerUser(email, password, name, phone, address, role, profileImage) { success, message ->
                     isLoading = false
 
                     if (success) {
@@ -94,8 +98,8 @@ class AuthViewModel(
 
                         viewModelScope.launch {
                             delay(1000)
-                            saveSession(email, userRole ?: "user")
-                            onLoginSuccess(userRole ?: "user", null)
+                            saveSession(email, (userRole ?: "user").toString())
+                            onLoginSuccess((userRole ?: "user").toString(), null)
                         }
                     } else {
                         showSnackbar(message ?: "Login Failed")
@@ -106,9 +110,12 @@ class AuthViewModel(
     }
 
     private fun resetFields() {
+        name = ""
         email = ""
         password = ""
         confirmPassword = ""
+        phone = ""
+        address = ""
         role = "user"
         isRegister = false
     }
@@ -205,6 +212,33 @@ fun AuthScreen(viewModel: AuthViewModel, onLoginSuccess: (String, Any?) -> Unit)
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = viewModel.name,
+                        onValueChange = { viewModel.name = it },
+                        label = { Text("Name", color = PurpleGrey80) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = viewModel.phone,
+                        onValueChange = { viewModel.phone = it },
+                        label = { Text("Phone", color = PurpleGrey80) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = viewModel.address,
+                        onValueChange = { viewModel.address = it },
+                        label = { Text("Address", color = PurpleGrey80) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
