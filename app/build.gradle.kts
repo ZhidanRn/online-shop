@@ -74,4 +74,6 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.coil.compose)
     implementation(libs.accompanist.systemuicontroller.v0301)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }

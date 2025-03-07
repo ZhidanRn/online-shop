@@ -11,6 +11,7 @@ import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.screen.AuthScreen
 import com.example.onlineshop.ui.screen.AuthViewModel
 import com.example.onlineshop.ui.screen.HomeScreen
+import com.example.onlineshop.utils.ProductSeeder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -21,6 +22,15 @@ class MainActivity : ComponentActivity() {
 
         val dataStoreManager = DataStoreManager(this)
         val userProfileRepository = UserProfileRepository(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance())
+
+        // Add Seed Products To Firebase
+        lifecycleScope.launch {
+            try {
+                ProductSeeder.seedProducts()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
         setContent {
             val authRepository = AuthRepository()
