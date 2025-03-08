@@ -10,8 +10,7 @@ import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.screen.AuthScreen
 import com.example.onlineshop.ui.screen.AuthViewModel
-import com.example.onlineshop.ui.screen.HomeScreen
-import com.example.onlineshop.utils.ProductSeeder
+import com.example.onlineshop.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -24,13 +23,13 @@ class MainActivity : ComponentActivity() {
         val userProfileRepository = UserProfileRepository(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance())
 
         // Add Seed Products To Firebase
-        lifecycleScope.launch {
-            try {
-                ProductSeeder.seedProducts()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+//        lifecycleScope.launch {
+//            try {
+//                ProductSeeder.seedProducts()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
 
         setContent {
             val authRepository = AuthRepository()
@@ -51,11 +50,12 @@ class MainActivity : ComponentActivity() {
                     }
                 )
             } else {
-                HomeScreen(
+                Navigation(
                     role = role!!,
                     authRepository = authRepository,
                     dataStoreManager = dataStoreManager,
                     userProfileRepository = userProfileRepository,
+
                     onLogout = {
                         lifecycleScope.launch {
                             dataStoreManager.clearSession()

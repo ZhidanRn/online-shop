@@ -76,4 +76,5 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller.v0301)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation("androidx.navigation:navigation-compose:2.8.8")
 }

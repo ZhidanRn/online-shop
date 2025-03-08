@@ -13,13 +13,15 @@ import com.example.onlineshop.ui.component.UserBottomNavigation
 import com.example.onlineshop.ui.component.UserTab
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 
 @Composable
 fun UserScreen(
     authRepository: AuthRepository,
     userProfileRepository: UserProfileRepository,
     dataStoreManager: DataStoreManager,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    navController: NavController
 ) {
     var selectedTab by remember { mutableStateOf(UserTab.Home) }
     val systemUiController = rememberSystemUiController()
