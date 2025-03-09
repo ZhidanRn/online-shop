@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.onlineshop.utils.formatCurrency
-import com.example.onlineshop.viewmodel.CartViewModel
+import com.example.onlineshop.ui.viewModel.CartViewModel
 import com.example.onlineshop.ui.component.CartItem
 
 @Composable

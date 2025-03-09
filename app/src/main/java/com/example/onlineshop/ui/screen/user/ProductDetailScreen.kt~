@@ -34,7 +34,7 @@ import com.example.onlineshop.ui.viewModel.ProductDetailViewModel
 import com.example.onlineshop.utils.formatCurrency
 
 @Composable
-fun ProductDetailScreen(productId: String?, goToCart : () -> Unit) {
+fun ProductDetailScreen(productId: String?) {
     val viewModel = remember { ProductDetailViewModel(ProductRepository()) }
     val product by viewModel.product.collectAsState()
     val scrollState = rememberScrollState()
@@ -42,6 +42,7 @@ fun ProductDetailScreen(productId: String?, goToCart : () -> Unit) {
     var showAddedToCartSnackbar by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val navController = rememberNavController()
 
     LaunchedEffect(productId) {
         productId?.toIntOrNull()?.let { id ->
@@ -70,7 +71,7 @@ fun ProductDetailScreen(productId: String?, goToCart : () -> Unit) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { goToCart() }) {
+                    IconButton(onClick = { navController.navigate("cart") }) {
                         Icon(Icons.Default.ShoppingCart, contentDescription = "Cart")
                     }
                 },

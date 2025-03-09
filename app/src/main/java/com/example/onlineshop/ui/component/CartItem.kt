@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.onlineshop.data.model.CartItem
 import com.example.onlineshop.utils.formatCurrency
-import com.example.onlineshop.viewmodel.CartViewModel
+import com.example.onlineshop.ui.viewModel.CartViewModel
 
 
 @Composable

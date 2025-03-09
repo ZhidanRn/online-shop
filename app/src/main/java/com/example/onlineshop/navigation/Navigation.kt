@@ -15,7 +15,7 @@ import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.screen.AdminScreen
 import com.example.onlineshop.ui.screen.user.ProductDetailScreen
 import com.example.onlineshop.ui.screen.user.CartScreen
-import com.example.onlineshop.viewmodel.CartViewModel
+import com.example.onlineshop.ui.viewModel.CartViewModel
 
 @Composable
 fun Navigation(
@@ -51,7 +51,7 @@ fun Navigation(
                 }
                 composable("detail/{productId}") { backStackEntry ->
                     val productId = backStackEntry.arguments?.getString("productId")
-                    ProductDetailScreen(productId)
+                    ProductDetailScreen(productId, goToCart = { navController.navigate("cart") })
                 }
                 composable("cart") {
                     CartScreen()
