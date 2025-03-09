@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.onlineshop.data.model.Product
 import com.example.onlineshop.data.repository.ProductRepository
@@ -21,6 +22,7 @@ import com.example.onlineshop.ui.component.HomeTopAppBar
 import com.example.onlineshop.ui.component.LoadingIndicator
 import com.example.onlineshop.ui.component.ProductGrid
 import com.example.onlineshop.ui.component.PromotionalBanner
+import com.example.onlineshop.ui.viewModel.CartViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -30,6 +32,10 @@ fun UserHomeScreen(navController: NavController) {
     var selectedCategory by remember { mutableStateOf("All") }
     val coroutineScope = rememberCoroutineScope()
     var isLoading by remember { mutableStateOf(true) }
+
+    val viewModel = viewModel<CartViewModel>()
+    val cartCount by viewModel.itemCount.collectAsState(initial = 0)
+
 
     val categories = listOf("All", "Electronics", "Men's Clothing", "Women's Clothing", "Jewelery")
 
