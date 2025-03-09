@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,6 +14,8 @@ import com.example.onlineshop.data.repository.AuthRepository
 import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.screen.AdminScreen
 import com.example.onlineshop.ui.screen.user.ProductDetailScreen
+import com.example.onlineshop.ui.screen.user.CartScreen
+import com.example.onlineshop.viewmodel.CartViewModel
 
 @Composable
 fun Navigation(
@@ -20,7 +23,8 @@ fun Navigation(
     authRepository: AuthRepository,
     userProfileRepository: UserProfileRepository,
     dataStoreManager: DataStoreManager,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    cartViewModel: CartViewModel = viewModel()
 ) {
     Column(
         modifier = Modifier
@@ -48,6 +52,9 @@ fun Navigation(
                 composable("detail/{productId}") { backStackEntry ->
                     val productId = backStackEntry.arguments?.getString("productId")
                     ProductDetailScreen(productId)
+                }
+                composable("cart") {
+                    CartScreen()
                 }
             }
         }

@@ -55,7 +55,9 @@ fun UserHomeScreen(navController: NavController) {
             HomeTopAppBar(
                 searchQuery = searchQuery,
                 onSearchQueryChange = { searchQuery = it },
-                onCartClick = { /* TODO: Navigate to Cart */ }
+                onCartClick = {
+                    navController.navigate("cart")
+                },
             )
         }
     ) { paddingValues ->

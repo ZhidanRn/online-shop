@@ -39,12 +39,10 @@ class CartRepository {
                 val productMap = doc.get("product") as? Map<String, Any> ?: return@mapNotNull null
                 val product = Product(
                     id = (productMap["id"] as? Long)?.toInt() ?: return@mapNotNull null,
-                    title = productMap["title"] as? String ?: return@mapNotNull null,
+                    name = productMap["name"] as? String ?: return@mapNotNull null,
                     price = (productMap["price"] as? Number)?.toDouble() ?: return@mapNotNull null,
                     description = productMap["description"] as? String ?: "",
-                    category = productMap["category"] as? String ?: "",
-                    image = productMap["image"] as? String ?: "",
-                    quantity = (productMap["quantity"] as? Long)?.toInt() ?: 0
+                    imageUrl = productMap["imageUrl"] as? String ?: ""
                 )
                 val quantity = (doc.getLong("quantity") ?: 1).toInt()
                 CartItem(product, quantity)
@@ -78,12 +76,10 @@ class CartRepository {
             val itemData = hashMapOf(
                 "product" to hashMapOf(
                     "id" to product.id,
-                    "title" to product.title,
+                    "name" to product.name,
                     "price" to product.price,
                     "description" to product.description,
-                    "category" to product.category,
-                    "image" to product.image,
-                    "quantity" to product.quantity
+                    "imageUrl" to product.imageUrl
                 ),
                 "quantity" to cartItem.quantity
             )
