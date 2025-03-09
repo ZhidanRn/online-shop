@@ -30,7 +30,7 @@ fun CartScreen(
     val totalPrice by viewModel.totalPrice.collectAsState()
     val itemCount by viewModel.itemCount.collectAsState()
 
-    val groupedItems = cartItems.groupBy { it.product.id % 3 }
+    val items = cartItems.groupBy { it.product.id % 3 }
 
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
@@ -127,18 +127,10 @@ fun CartScreen(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(bottom = 80.dp)
                     ) {
-                        groupedItems.forEach { (storeId, storeItems) ->
+                        items.forEach { (storeId, storeItems) ->
                             items(storeItems) { item ->
                                 CartItem(item, viewModel)
                             }
-
-                            item {
-                                Spacer(modifier = Modifier.height(16.dp))
-                            }
-                        }
-
-                        item {
-                            Spacer(modifier = Modifier.height(24.dp))
                         }
                     }
                 }

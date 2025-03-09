@@ -9,4 +9,6 @@ data class Product(
     val image: String = "",
     val quantity: Int = 0,
     val storeName: String = ""
-)
+){
+    constructor() : this(0, "", 0.0, "", "", "", 0, "")
+}

@@ -1,0 +1,8 @@
+package com.example.onlineshop.data.model
+
+data class Transaction @JvmOverloads constructor(
+    val items: List<CartItem>,
+    val totalPrice: Double,
+    val status: String = "pending",
+    val timestamp: Long = System.currentTimeMillis()
+)

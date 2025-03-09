@@ -47,7 +47,7 @@ class CartRepository {
                     quantity = (productMap["quantity"] as? Long)?.toInt() ?: 0
                 )
                 val quantity = (doc.getLong("quantity") ?: 1).toInt()
-                CartItem(product, quantity)
+                CartItem(product, quantity, product.price * quantity)
             }
             _cartItems.value = items
             updateTotals()
@@ -66,7 +66,7 @@ class CartRepository {
             val existingItem = currentItems[existingItemIndex]
             currentItems[existingItemIndex] = existingItem.copy(quantity = existingItem.quantity + quantity)
         } else {
-            currentItems.add(CartItem(product, quantity))
+            currentItems.add(CartItem(product, quantity, product.price * quantity))
         }
 
         _cartItems.value = currentItems

@@ -15,6 +15,7 @@ import com.example.onlineshop.data.repository.UserProfileRepository
 import com.example.onlineshop.ui.screen.AdminScreen
 import com.example.onlineshop.ui.screen.user.ProductDetailScreen
 import com.example.onlineshop.ui.screen.user.CartScreen
+import com.example.onlineshop.ui.screen.user.CheckoutScreen
 import com.example.onlineshop.ui.viewModel.CartViewModel
 
 @Composable
@@ -54,7 +55,12 @@ fun Navigation(
                     ProductDetailScreen(productId, goToCart = { navController.navigate("cart") })
                 }
                 composable("cart") {
-                    CartScreen()
+                    CartScreen(
+                        onCheckout = { navController.navigate("checkout") }
+                    )
+                }
+                composable("checkout") {
+                    CheckoutScreen()
                 }
             }
         }
